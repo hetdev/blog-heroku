@@ -58,9 +58,11 @@ class ContactRequest(models.Model):
 
 
 @receiver(post_save, sender=ContactRequest)
-def my_handler(sender, instance: ContactRequest, created, **kwargs):
+def contact_request_post_save(sender, instance: ContactRequest, created,
+                              **kwargs):
     if created:
-        body = f''
+        body = f'email: {instance.email}, name:{instance.name}, content:' \
+               f'{instance.content}'
         msg = EmailMessage(
             subject='Blog Hetzel Cordoba',
             from_email=instance.email,
