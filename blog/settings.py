@@ -127,3 +127,5 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+DEBUG_EMAIL = 'debug@mir.de'

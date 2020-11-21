@@ -1,5 +1,9 @@
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.text import slugify
 
 
@@ -51,3 +55,19 @@ class ContactRequest(models.Model):
 
     def __str__(self):
         return f'{str(self.name)} - {str(self.email)}'
+
+
+@receiver(post_save, sender=ContactRequest)
+def my_handler(sender, instance: ContactRequest, created, **kwargs):
+    if created:
+        body = f''
+        msg = EmailMessage(
+            subject='Blog Hetzel Cordoba',
+            from_email=instance.email,
+            to=(
+                settings.DEBUG_EMAIL,
+            ),
+            body=body
+        )
+
+        msg.send(fail_silently=True)

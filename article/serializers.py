@@ -2,7 +2,7 @@ import socket
 
 from rest_framework import serializers
 
-from article.models import Article
+from article.models import Article, ContactRequest
 
 
 class ArticleListSerializer(serializers.ModelSerializer):
@@ -45,3 +45,15 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
         return f'{self.root.context["request"].build_absolute_uri("/")}api' \
                f'/article/list'
+
+
+class ContactRequestCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ContactRequest
+        fields = (
+            'name',
+            'email',
+            'content',
+            'contact_date',
+        )
